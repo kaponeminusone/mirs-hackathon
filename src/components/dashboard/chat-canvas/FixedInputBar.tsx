@@ -1,15 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Send, Mic, Paperclip } from 'lucide-react';
+import { Send, Mic, Paperclip, Volume2, VolumeX } from 'lucide-react';
 
 interface FixedInputBarProps {
     onSendMessage: (message: string) => void;
     isRecording?: boolean;
     onToggleRecording?: () => void;
+    isMuted?: boolean;
+    onToggleMute?: () => void;
 }
 
-export default function FixedInputBar({ onSendMessage, isRecording, onToggleRecording }: FixedInputBarProps) {
+export default function FixedInputBar({
+    onSendMessage,
+    isRecording,
+    onToggleRecording,
+    isMuted = false,
+    onToggleMute
+}: FixedInputBarProps) {
     const [input, setInput] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -42,18 +50,31 @@ export default function FixedInputBar({ onSendMessage, isRecording, onToggleReco
                             handleSubmit(e);
                         }
                     }}
-                    placeholder="Describe symptoms or ongoing condition..."
+                    placeholder="Describa los síntomas o la condición actual..."
                     className="flex-1 bg-transparent border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 resize-none py-3 max-h-32 min-h-[48px]"
                     rows={1}
                 />
 
                 <div className="flex items-center gap-1">
+                    {/* Global Mute Toggle */}
+                    <button
+                        type="button"
+                        onClick={onToggleMute}
+                        className={`p-3 rounded-xl transition-colors ${isMuted
+                            ? 'text-slate-400 hover:text-slate-600 bg-slate-100'
+                            : 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100'
+                            }`}
+                        title={isMuted ? "Activar lectura automática" : "Silenciar lectura automática"}
+                    >
+                        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                    </button>
+
                     <button
                         type="button"
                         onClick={onToggleRecording}
                         className={`p-3 rounded-xl transition-colors ${isRecording
-                                ? 'bg-red-100 text-red-600 animate-pulse'
-                                : 'text-slate-400 hover:text-blue-500 hover:bg-blue-50'
+                            ? 'bg-red-100 text-red-600 animate-pulse'
+                            : 'text-slate-400 hover:text-blue-500 hover:bg-blue-50'
                             }`}
                     >
                         <Mic size={20} />

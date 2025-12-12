@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react'; // Import icons
 import SidebarHeader from '../sidebar/SidebarHeader';
 import SidebarNavigation from '../sidebar/SidebarNavigation';
 import ChatHistoryList from '../sidebar/ChatHistoryList';
@@ -9,24 +10,62 @@ import ChatCanvasContainer from '../chat-canvas/ChatCanvasContainer';
 
 export default function MainSplitLayout() {
     const [activeTab, setActiveTab] = useState<'chats' | 'calendar'>('chats');
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <div className="flex h-screen w-full bg-slate-100 overflow-hidden font-sans">
-            {/* Sidebar - 35% width */}
-            <aside className="w-[35%] min-w-[320px] max-w-[480px] flex flex-col border-r border-slate-200 bg-white z-10 shadow-xl shadow-slate-200/50">
-                <SidebarHeader />
-                <SidebarNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+        <div className="flex h-screen w-full bg-slate-100 overflow-hidden font-sans relative">
 
-                {/* Content Area */}
-                {activeTab === 'chats' ? (
-                    <ChatHistoryList />
-                ) : (
-                    <AppointmentsCalendar />
-                )}
+            {/* Mobile Menu Button - Visible only on mobile */}
+            <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="md:hidden absolute top-4 left-4 z-40 p-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg shadow-sm text-slate-600 hover:text-blue-600 active:scale-95 transition-all"
+            >
+                <Menu size={24} />
+            </button>
+
+            {/* Sidebar Overlay (Backdrop) for Mobile */}
+            {isMobileMenuOpen && (
+                <div
+                    className="fixed inset-0 bg-slate-900/20 backdrop-blur-[2px] z-40 md:hidden"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
+            {/* Sidebar */}
+            <aside className={`
+                flex flex-col border-r border-slate-200 bg-white shadow-xl shadow-slate-200/50
+                transition-transform duration-300 ease-in-out
+                
+                /* Desktop Styles */
+                md:translate-x-0 md:relative md:w-[35%] md:min-w-[320px] md:max-w-[480px] md:z-10 md:flex
+                
+                /* Mobile Styles */
+                fixed inset-y-0 left-0 w-[85%] max-w-[320px] z-50
+                ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+                <div className="flex flex-col h-full relative">
+                    {/* Mobile Close Button */}
+                    <button
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="md:hidden absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600"
+                    >
+                        <X size={20} />
+                    </button>
+
+                    <SidebarHeader />
+                    <SidebarNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+
+                    {/* Content Area */}
+                    {activeTab === 'chats' ? (
+                        <ChatHistoryList />
+                    ) : (
+                        <AppointmentsCalendar />
+                    )}
+                </div>
             </aside>
 
             {/* Main Canvas - 65% width */}
-            <main className="flex-1 flex flex-col min-w-0 bg-white relative">
+            <main className="flex-1 flex flex-col min-w-0 bg-white relative w-full">
                 <ChatCanvasContainer />
             </main>
         </div>

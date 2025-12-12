@@ -13,13 +13,13 @@ export interface TriageResponse {
     suggestedAction: string;
 }
 
-const SYSTEM_PROMPT = `You are MIRS, an AI Triage Assistant. Analyze the patient's transcript.
-1. Identify symptoms and risk factors.
-2. Classify urgency (Manchester Triage System).
-3. Output ONLY JSON with keys: { reply_text, triage_color, action_type }.
-- reply_text: Empowering, concise medical response.
-- triage_color: RED, ORANGE, YELLOW, or GREEN.
-- action_type: Immediate Action, Consultant Review, Routine Check, or Self Care.
+const SYSTEM_PROMPT = `Eres MIRS, un Asistente de Triaje con IA. Analiza la transcripción del paciente.
+1. Identifica síntomas y factores de riesgo.
+2. Clasifica la urgencia (Sistema de Triaje Manchester).
+3. Genera SOLAMENTE un JSON con las claves: { reply_text, triage_color, action_type }.
+- reply_text: Respuesta médica concisa y empoderadora en ESPAÑOL.
+- triage_color: RED, ORANGE, YELLOW, o GREEN.
+- action_type: Acción Inmediata, Revisión por Consultor, Chequeo de Rutina, o Autocuidado.
 `;
 
 export async function processVoiceTriage(formData: FormData): Promise<TriageResponse> {
@@ -41,6 +41,7 @@ export async function processVoiceTriage(formData: FormData): Promise<TriageResp
         const transcription = await groq.audio.transcriptions.create({
             file: file as File, // Type assertion for SDK compatibility
             model: 'whisper-large-v3',
+            language: 'es', // Force Spanish transcription logic help
         });
 
         const transcriptText = transcription.text;
@@ -52,7 +53,7 @@ export async function processVoiceTriage(formData: FormData): Promise<TriageResp
                 { role: 'system', content: SYSTEM_PROMPT },
                 { role: 'user', content: transcriptText },
             ],
-            model: 'llama3-70b-8192',
+            model: 'llama-3.3-70b-versatile',
             temperature: 0.1,
             response_format: { type: 'json_object' },
         });
@@ -69,8 +70,8 @@ export async function processVoiceTriage(formData: FormData): Promise<TriageResp
             suggestedAction: result.action_type,
         };
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error processing triage:', error);
-        throw new Error('Failed to process voice triage');
+        throw new Error(`Failed to process voice triage: ${error.message}`);
     }
 }

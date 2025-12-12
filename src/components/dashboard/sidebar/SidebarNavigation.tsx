@@ -13,8 +13,8 @@ export default function SidebarNavigation({ activeTab, onTabChange }: SidebarNav
                 <button
                     onClick={() => onTabChange('chats')}
                     className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'chats'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-700'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
                     <MessageSquare size={16} />
@@ -23,12 +23,12 @@ export default function SidebarNavigation({ activeTab, onTabChange }: SidebarNav
                 <button
                     onClick={() => onTabChange('calendar')}
                     className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'calendar'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-700'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
                     <Calendar size={16} />
-                    <span>Calendar</span>
+                    <span>Calendario</span>
                 </button>
             </div>
         </div>

@@ -54,8 +54,8 @@ export default function BigMicHero({ onActivate, isRecording = false, isProcessi
 
                     {/* Main button */}
                     <div className={`relative w-40 h-40 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 ${isRecording
-                            ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-red-200'
-                            : 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-blue-200 group-hover:shadow-2xl group-hover:shadow-blue-300'
+                        ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-red-200'
+                        : 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-blue-200 group-hover:shadow-2xl group-hover:shadow-blue-300'
                         }`}>
                         <Mic size={64} className="text-white drop-shadow-md" />
                     </div>
@@ -63,12 +63,12 @@ export default function BigMicHero({ onActivate, isRecording = false, isProcessi
 
                 <div className="text-center space-y-2 max-w-md px-4">
                     <h1 className="text-2xl font-bold text-slate-800">
-                        {isRecording ? 'Listening...' : isProcessing ? 'Thinking...' : 'Ready to Assist'}
+                        {isRecording ? 'Escuchando...' : isProcessing ? 'Pensando...' : 'Listo para Asistir'}
                     </h1>
                     <p className="text-slate-500">
                         {isRecording
-                            ? 'Speak clearly into the microphone. Tap to stop.'
-                            : 'Tap the microphone to start a new triage session or type your query below.'}
+                            ? 'Hable claramente al micrófono. Toque para detener.'
+                            : 'Toque el micrófono para iniciar una nueva sesión de triaje o escriba abajo.'}
                     </p>
                 </div>
             </div>
