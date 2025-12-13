@@ -1,36 +1,35 @@
 import { create } from 'zustand';
 
 export interface Notification {
-    id: number;
+    id: string; // Changed to string to match mockPersonas
     title: string;
     message: string;
-    time: string;
+    // time: string; // Removed or optional if not in mockPersonas? Mock has no time field in my previous write.
+    // Wait, mockPersonas `Notification` type was imported from here.
+    // I need to check mockPersonas usage.
+    // In mockPersonas I wrote: { id: '1', title: '...', message: '...', type: 'info', read: false }
+    // I missed `time`. I should either add time to mock or make it optional.
+    // Let's make time optional here.
+    time?: string;
     type: 'success' | 'info' | 'warning';
     read: boolean;
 }
 
 interface NotificationState {
     notifications: Notification[];
-    markAsRead: (id: number) => void;
+    markAsRead: (id: string) => void;
     hasUnread: () => boolean;
+    setNotifications: (notifications: Notification[]) => void;
 }
 
 const MOCK_NOTIFICATIONS: Notification[] = [
     {
-        id: 2,
+        id: '2',
         title: 'Resultados Disponibles',
         message: 'Los análisis de sangre ya están listos.',
         time: 'Ayer',
         type: 'info',
         read: false
-    },
-    {
-        id: 3,
-        title: 'Recordatorio',
-        message: 'Mañana tienes chequeo general.',
-        time: 'Ayer',
-        type: 'warning',
-        read: true
     }
 ];
 
@@ -41,5 +40,6 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
             n.id === id ? { ...n, read: true } : n
         )
     })),
-    hasUnread: () => get().notifications.some(n => !n.read)
+    hasUnread: () => get().notifications.some(n => !n.read),
+    setNotifications: (notifications) => set({ notifications })
 }));

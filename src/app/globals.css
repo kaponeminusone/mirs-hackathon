@@ -2,7 +2,16 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #5d576b;
+
+  /* Custom Palette */
+  --bubblegum-pink: #f7567c;
+  --cornsilk: #fffae3;
+  --pearl-aqua: #99e1d9;
+  --taupe-grey: #5d576b;
+
+  --bubblegum-pink-hsl: 346, 91%, 65%;
+  --pearl-aqua-hsl: 173, 55%, 74%;
 }
 
 @theme inline {
@@ -10,6 +19,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-bubblegum-pink: var(--bubblegum-pink);
+  --color-cornsilk: var(--cornsilk);
+  --color-pearl-aqua: var(--pearl-aqua);
+  --color-taupe-grey: var(--taupe-grey);
 }
 
 @media (prefers-color-scheme: dark) {

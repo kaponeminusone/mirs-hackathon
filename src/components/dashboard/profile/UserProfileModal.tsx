@@ -9,7 +9,7 @@ interface UserProfileModalProps {
 }
 
 export default function UserProfileModal({ isOpen, onClose }: UserProfileModalProps) {
-    const { name, role, email, phone, identification, updateProfile } = useUserStore();
+    const { name, role, email, phone, identification, updateProfile, avatarUrl } = useUserStore();
     const [isEditing, setIsEditing] = useState(false);
 
     // Form state
@@ -42,9 +42,17 @@ export default function UserProfileModal({ isOpen, onClose }: UserProfileModalPr
             <div className={`flex flex-col gap-6 ${isEditing ? 'max-w-md mx-auto w-full' : ''}`}>
                 {/* Header with Avatar */}
                 <div className="flex flex-col items-center gap-3 pb-4 border-b border-slate-100">
-                    <div className="h-24 w-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 border-4 border-white shadow-lg">
-                        <User size={48} />
-                    </div>
+                    {avatarUrl ? (
+                        <img
+                            src={avatarUrl}
+                            alt={name}
+                            className="h-24 w-24 rounded-full border-4 border-white shadow-lg object-cover bg-blue-50"
+                        />
+                    ) : (
+                        <div className="h-24 w-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 border-4 border-white shadow-lg">
+                            <User size={48} />
+                        </div>
+                    )}
                     {!isEditing ? (
                         <div className="text-center">
                             <h2 className="text-xl font-bold text-slate-800">{name}</h2>

@@ -12,12 +12,12 @@ interface HistoryItemProps {
     onDelete: (id: string, e: React.MouseEvent) => void;
 }
 
-const levelConfigs: Record<TriageLevel, { bg: string; text: string; label: string }> = {
-    RED: { bg: 'bg-red-100 border-red-200', text: 'text-red-700', label: 'Crítico' },
-    ORANGE: { bg: 'bg-orange-100 border-orange-200', text: 'text-orange-700', label: 'Urgente' },
-    YELLOW: { bg: 'bg-yellow-100 border-yellow-200', text: 'text-yellow-700', label: 'Moderado' },
-    GREEN: { bg: 'bg-green-100 border-green-200', text: 'text-green-700', label: 'Leve' },
-    BLUE: { bg: 'bg-blue-100 border-blue-200', text: 'text-blue-700', label: 'Estándar' },
+const levelConfigs: Record<TriageLevel, { style: string; dot: string; label: string }> = {
+    RED: { style: 'bg-red-500/10 text-red-400 border-red-500/20', dot: 'bg-red-500', label: 'Crítico' },
+    ORANGE: { style: 'bg-orange-500/10 text-orange-400 border-orange-500/20', dot: 'bg-orange-500', label: 'Urgente' },
+    YELLOW: { style: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', dot: 'bg-yellow-500', label: 'Moderado' },
+    GREEN: { style: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500', label: 'Leve' },
+    BLUE: { style: 'bg-blue-500/10 text-blue-400 border-blue-500/20', dot: 'bg-blue-500', label: 'Estándar' },
 };
 
 export default function HistoryItem({ session, isActive, onSelect, onDelete }: HistoryItemProps) {
@@ -25,47 +25,48 @@ export default function HistoryItem({ session, isActive, onSelect, onDelete }: H
 
     return (
         <motion.div
-            layout // Enable layout animation for smooth reordering
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
+            layout
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, x: -10 }}
             onClick={() => onSelect(session.id)}
-            className={`group relative p-3 rounded-lg cursor-pointer transition-all border-l-4 border-b border-slate-100 ${isActive
-                    ? 'bg-slate-50 border-l-slate-800' // Active: Light bg, Dark side accent
-                    : 'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200'
+            className={`group relative p-4 rounded-xl cursor-pointer transition-all duration-200 border mb-2
+                ${isActive
+                    ? 'translate-x-2 bg-slate-700/60 border-slate-600 shadow-md ring-1 ring-slate-600/50'
+                    : 'hover:translate-x-1 bg-slate-700/20 border-slate-700/50 hover:bg-slate-700/40 hover:border-slate-600'
                 }`}
         >
-            <div className="flex flex-col gap-1.5 pl-1">
-                <div className="flex items-center justify-between">
-                    <span className={`text-sm font-medium ${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
-                        {session.patientName}
-                    </span>
-                    <span className="text-[10px] text-slate-400">
-                        {session.date.split(',')[0]} {/* Just show date/time loosely */}
-                    </span>
-                </div>
-
-                <p className={`text-xs line-clamp-2 ${isActive ? 'text-slate-600' : 'text-slate-500'}`}>
+            {/* Header: Title & Date */}
+            <div className="flex justify-between items-start mb-1.5 gap-2">
+                <h4 className={`text-sm font-medium pr-2 truncate w-full transition-colors ${isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'}`}>
                     {session.summary}
-                </p>
+                </h4>
+                <span className="text-[10px] text-slate-500 whitespace-nowrap pt-0.5">
+                    {session.date.split(',')[0]}
+                </span>
+            </div>
 
-                <div className="flex items-center justify-between mt-1">
-                    <div className="flex items-center gap-1.5">
-                        <div className={`w-2 h-2 rounded-full ${config.bg.replace('bg-', 'bg-').replace('border-', '')} ${config.text.replace('text-', 'bg-')}`}></div>
-                        <span className={`text-[10px] font-medium ${config.text}`}>
-                            {config.label}
-                        </span>
-                    </div>
+            {/* Body: Snippet */}
+            <p className="text-slate-400 text-xs line-clamp-2 mb-3 leading-relaxed font-normal">
+                {session.messages?.[0]?.content || "Nueva conversación de triaje..."}
+            </p>
 
-                    {/* Delete Button - Visible on Group Hover */}
-                    <button
-                        onClick={(e) => onDelete(session.id, e)}
-                        className="p-1 text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                        title="Eliminar"
-                    >
-                        <Trash2 size={14} />
-                    </button>
-                </div>
+            {/* Footer: Badge & Actions */}
+            <div className="flex items-center justify-between h-5">
+                {/* Triage Badge */}
+                <span className={`border text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1.5 ${config.style}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${config.dot} ${session.triageLevel === 'RED' ? 'animate-pulse' : ''}`}></span>
+                    {config.label}
+                </span>
+
+                {/* Delete Action (Visible on Hover) */}
+                <button
+                    onClick={(e) => onDelete(session.id, e)}
+                    className="text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all p-1 hover:bg-slate-700/50 rounded"
+                    title="Eliminar historial"
+                >
+                    <Trash2 size={13} />
+                </button>
             </div>
         </motion.div>
     );

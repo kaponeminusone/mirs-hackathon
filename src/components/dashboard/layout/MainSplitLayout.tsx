@@ -35,7 +35,7 @@ export default function MainSplitLayout() {
 
             {/* Sidebar */}
             <aside className={`
-                flex flex-col border-r border-slate-200 bg-white shadow-xl shadow-slate-200/50
+                flex flex-col border-r border-slate-700 bg-slate-800 shadow-xl shadow-slate-900/20
                 transition-transform duration-300 ease-in-out
                 
                 /* Desktop Styles */
@@ -64,9 +64,19 @@ export default function MainSplitLayout() {
                 </div>
             </aside>
 
-            {/* Main Canvas - 65% width */}
-            <main className="flex-1 flex flex-col min-w-0 bg-white relative w-full">
-                <ChatCanvasContainer />
+            {/* Main Content Area */}
+            <main className="flex-1 relative flex flex-col min-w-0 bg-slate-50">
+                {/* Dot Pattern Background */}
+                <div className="absolute inset-0 z-0 opacity-[0.4] pointer-events-none"
+                    style={{
+                        backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
+                        backgroundSize: '24px 24px'
+                    }}>
+                </div>
+
+                <div className="flex-1 relative z-10 flex flex-col h-full overflow-hidden">
+                    <ChatCanvasContainer />
+                </div>
             </main>
         </div>
     );

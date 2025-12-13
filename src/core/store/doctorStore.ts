@@ -10,10 +10,10 @@ interface DoctorState {
 }
 
 export const useDoctorStore = create<DoctorState>((set) => ({
-    name: 'Dr. Roberto Mendoza',
-    specialty: 'Cardiología',
-    email: 'roberto.mendoza@mirs.com',
-    phone: '+1 (555) 123-4567',
-    identification: 'DOC-98765',
+    name: 'Dr. Santiago Medina',
+    specialty: 'Gastroenterología',
+    email: 'santiago.medina@mirs.com',
+    phone: '+57 300 123 4567',
+    identification: 'DOC-1001',
     updateProfile: (data) => set((state) => ({ ...state, ...data })),
 }));
