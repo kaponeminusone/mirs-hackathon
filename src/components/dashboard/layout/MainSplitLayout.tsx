@@ -8,8 +8,10 @@ import ChatHistoryList from '../sidebar/ChatHistoryList';
 import AppointmentsCalendar from '../sidebar/AppointmentsCalendar';
 import ChatCanvasContainer from '../chat-canvas/ChatCanvasContainer';
 
+import NotificationsList from '../sidebar/NotificationsList';
+
 export default function MainSplitLayout() {
-    const [activeTab, setActiveTab] = useState<'chats' | 'calendar'>('chats');
+    const [activeTab, setActiveTab] = useState<'chats' | 'calendar' | 'notifications'>('chats');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
@@ -56,11 +58,9 @@ export default function MainSplitLayout() {
                     <SidebarNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
                     {/* Content Area */}
-                    {activeTab === 'chats' ? (
-                        <ChatHistoryList />
-                    ) : (
-                        <AppointmentsCalendar />
-                    )}
+                    {activeTab === 'chats' && <ChatHistoryList />}
+                    {activeTab === 'calendar' && <AppointmentsCalendar />}
+                    {activeTab === 'notifications' && <NotificationsList />}
                 </div>
             </aside>
 
