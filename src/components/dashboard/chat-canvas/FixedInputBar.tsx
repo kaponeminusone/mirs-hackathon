@@ -32,11 +32,11 @@ export default function FixedInputBar({
         <div className="p-4 bg-white border-t border-slate-200">
             <form
                 onSubmit={handleSubmit}
-                className="max-w-4xl mx-auto flex items-end gap-2 p-2 bg-slate-50 border border-slate-200 rounded-2xl focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300 transition-all shadow-sm"
+                className="max-w-4xl mx-auto grid grid-cols-[auto_1fr] md:flex md:items-end gap-2 p-2 bg-slate-50 border border-slate-200 rounded-2xl focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300 transition-all shadow-sm"
             >
                 <button
                     type="button"
-                    className="p-3 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
+                    className="p-3 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-colors row-start-2 col-start-1 md:row-auto md:col-auto"
                 >
                     <Paperclip size={20} />
                 </button>
@@ -51,11 +51,11 @@ export default function FixedInputBar({
                         }
                     }}
                     placeholder="Describa los síntomas o la condición actual..."
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 resize-none py-3 max-h-32 min-h-[48px]"
+                    className="flex-1 bg-transparent border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 resize-none py-3 max-h-32 min-h-[48px] row-start-1 col-span-2 md:row-auto md:col-auto w-full md:w-auto outline-none"
                     rows={1}
                 />
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 row-start-2 col-start-2 justify-self-end md:row-auto md:col-auto md:justify-self-auto">
                     {/* Global Mute Toggle */}
                     <button
                         type="button"
